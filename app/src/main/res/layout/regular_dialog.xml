@@ -30,6 +30,8 @@
             android:id="@+id/day"
             android:text="Каждый день"
             android:textSize="18sp"
+            android:textColor="@color/purple_500"
+            android:buttonTint="@color/purple_500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -37,6 +39,8 @@
             android:id="@+id/week"
             android:text="Каждую неделю"
             android:textSize="18sp"
+            android:textColor="@color/purple_500"
+            android:buttonTint="@color/purple_500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -44,6 +48,8 @@
             android:id="@+id/month"
             android:text="Каждый месяц"
             android:textSize="18sp"
+            android:textColor="@color/purple_500"
+            android:buttonTint="@color/purple_500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -51,6 +57,8 @@
             android:id="@+id/year"
             android:text="Каждый год"
             android:textSize="18sp"
+            android:textColor="@color/purple_500"
+            android:buttonTint="@color/purple_500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </RadioGroup>

@@ -39,9 +39,29 @@ class TaskFragment : BottomSheetDialogFragment() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val binding = RegularDialogBinding.inflate(layoutInflater)
         dialog.setContentView(binding.root)
+
         binding.day.setOnClickListener{
             regular = binding.day.text.toString()
             this.binding.regularBtn.text = regular
+            dialog.dismiss()
+        }
+//        binding.week.setOnClickListener{
+//            regular = binding.day.text.toString()
+//            this.binding.regularBtn.text = regular
+//            dialog.dismiss()
+//        }
+//        binding.month.setOnClickListener{
+//            regular = binding.day.text.toString()
+//            this.binding.regularBtn.text = regular
+//            dialog.dismiss()
+//        }
+//        binding.year.setOnClickListener{
+//            regular = binding.day.text.toString()
+//            this.binding.regularBtn.text = regular
+//            dialog.dismiss()
+//        }
+
+        binding.cancelBtn.setOnClickListener{
             dialog.dismiss()
         }
         dialog.show()
@@ -58,6 +78,7 @@ class TaskFragment : BottomSheetDialogFragment() {
             regularBtn.setOnClickListener {
                 showRegularDialog()
             }
+
             dateBtn.setOnClickListener {
                 val c = Calendar.getInstance()
                 val year = c.get(Calendar.YEAR)
