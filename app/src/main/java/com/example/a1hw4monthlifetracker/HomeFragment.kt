@@ -24,9 +24,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as MainActivity).showToolBar()
         initClicker()
         arguments?.let {
-            var list = ArrayList<TaskModel>()
+            val list = ArrayList<TaskModel>()
             val model = it.getSerializable("model") as TaskModel
             list.add(model)
             taskAdapter = TaskAdapter(list)
