@@ -22,7 +22,7 @@
         <TextView
             android:id="@+id/date"
             android:textSize="24sp"
-            android:textColor="@color/black"
+            android:textColor="@android:color/darker_gray"
             android:text="Date"
             android:layout_weight="1"
             android:layout_width="match_parent"

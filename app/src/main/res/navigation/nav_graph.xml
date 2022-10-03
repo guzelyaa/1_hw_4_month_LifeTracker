@@ -27,4 +27,9 @@
             app:popUpTo="@id/nav_graph.xml"
             app:destination="@id/homeFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.a1hw4monthlifetracker.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

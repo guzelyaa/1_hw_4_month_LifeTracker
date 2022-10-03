@@ -74,6 +74,7 @@ class TaskFragment : BottomSheetDialogFragment() {
                 val bundle = Bundle()
                 bundle.putSerializable("model", TaskModel(taskEd.text.toString(), date, regular))
                 findNavController().navigate(R.id.homeFragment2, bundle)
+                dismiss()
             }
             regularBtn.setOnClickListener {
                 showRegularDialog()
