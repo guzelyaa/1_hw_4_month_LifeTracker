@@ -1,20 +1,23 @@
 package com.example.a1hw4monthlifetracker
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import coil.load
-import com.example.a1hw4monthlifetracker.databinding.ActivityMainBinding
 import com.example.a1hw4monthlifetracker.databinding.FragmentHomeBinding
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.example.a1hw4monthlifetracker.room.TaskModel
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), TaskClickListener {
 
     lateinit var binding: FragmentHomeBinding
-    var taskAdapter = TaskAdapter(ArrayList())
+    var taskAdapter = TaskAdapter(ArrayList(), this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,22 +33,61 @@ class HomeFragment : Fragment() {
         (requireActivity() as MainActivity).binding.titleTv.text = "Задачи"
         (requireActivity() as MainActivity).binding.profileImV.load(R.drawable.ic_person)
         initClicker()
-        arguments?.let {
-            val list = ArrayList<TaskModel>()
-            val model = it.getSerializable("model") as TaskModel
-            list.add(model)
-            taskAdapter = TaskAdapter(list)
+
+        App.appDataDataBase.taskDao().getAll().observe(viewLifecycleOwner, Observer {
+            taskAdapter = TaskAdapter(it, this)
             binding.recycler.adapter = taskAdapter
-        }
+        })
+
     }
 
     private fun initClicker() {
-        binding.createTaskBtn.setOnClickListener{
-            TaskFragment().show(requireActivity().supportFragmentManager,"")
+        binding.createTaskBtn.setOnClickListener {
+            TaskFragment().show(requireActivity().supportFragmentManager, "")
         }
-        (requireActivity() as MainActivity).binding.toolBar.setOnClickListener{
+        (requireActivity() as MainActivity).binding.toolBar.setOnClickListener {
             findNavController().navigate(R.id.profileFragment)
         }
+    }
+
+    private fun showDialog(
+        context: Context, title: String,
+        negativeBtnClickListener: DialogInterface.OnClickListener?
+    ): AlertDialog {
+        val builder = AlertDialog.Builder(context)
+            .setTitle(title)
+            .setCancelable(true)
+
+        builder.setPositiveButton("Да", negativeBtnClickListener)
+        val alert = builder.create()
+        alert.show()
+        return alert
+    }
+
+    override fun itemClick(taskModel: TaskModel) {
+        val dialog = TaskFragment()
+        val bundle = Bundle()
+        bundle.putSerializable("model", taskModel)
+        dialog.arguments = bundle
+        dialog.show(requireActivity().supportFragmentManager, "update")
+    }
+
+    override fun deleteItemClick(taskModel: TaskModel) {
+//        val dialog = TaskFragment()
+//        val bundle = Bundle()
+//        bundle.putSerializable("model", taskModel)
+//        dialog.arguments = bundle
+//        dialog.show(requireActivity().supportFragmentManager, "delete")
+        showDialog(
+            requireContext(),
+            "Вы хотите удалить?",
+            object : DialogInterface.OnClickListener {
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+                    App.appDataDataBase.taskDao().delete(taskModel)
+                }
+
+            })
+
     }
 
 }

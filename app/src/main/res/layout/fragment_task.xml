@@ -47,9 +47,9 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        app:cornerRadius="8dp"
-        android:background="@color/purple_500"
+    <Button
+        android:background="@drawable/violet_rectangle"
+        android:backgroundTint="@color/purple_500"
         android:id="@+id/applyBtn"
         android:text="Принять"
         android:textColor="@color/white"

@@ -1,5 +1,6 @@
 package com.example.a1hw4monthlifetracker
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
@@ -10,15 +11,16 @@ import android.view.Window
 import androidx.navigation.fragment.findNavController
 import com.example.a1hw4monthlifetracker.databinding.FragmentTaskBinding
 import com.example.a1hw4monthlifetracker.databinding.RegularDialogBinding
+import com.example.a1hw4monthlifetracker.room.TaskModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.*
-import javax.xml.datatype.DatatypeConstants.MONTHS
 
 
 class TaskFragment : BottomSheetDialogFragment() {
     var task = ""
     var date = ""
     var regular = ""
+    var taskModel: TaskModel? = null
 
     lateinit var binding: FragmentTaskBinding
     override fun onCreateView(
@@ -32,6 +34,15 @@ class TaskFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initClicker()
+        if (tag == "update") {
+            arguments?.let {
+                taskModel = it.getSerializable("model") as TaskModel
+
+                binding.taskEd.setText(taskModel!!.task)
+                binding.dateBtn.text = taskModel!!.date
+                binding.regularBtn.text = taskModel!!.regular
+            }
+        }
     }
 
     private fun showRegularDialog() {
@@ -40,7 +51,7 @@ class TaskFragment : BottomSheetDialogFragment() {
         val binding = RegularDialogBinding.inflate(layoutInflater)
         dialog.setContentView(binding.root)
 
-        binding.day.setOnClickListener{
+        binding.day.setOnClickListener {
             regular = binding.day.text.toString()
             this.binding.regularBtn.text = regular
             dialog.dismiss()
@@ -61,19 +72,30 @@ class TaskFragment : BottomSheetDialogFragment() {
 //            dialog.dismiss()
 //        }
 
-        binding.cancelBtn.setOnClickListener{
+        binding.cancelBtn.setOnClickListener {
             dialog.dismiss()
         }
         dialog.show()
 
     }
 
+    @SuppressLint("ResourceType")
     private fun initClicker() {
         with(binding) {
             applyBtn.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putSerializable("model", TaskModel(taskEd.text.toString(), date, regular))
-                findNavController().navigate(R.id.homeFragment2, bundle)
+                if (tag == "update") {
+                    val model = TaskModel(
+                        id = taskModel?.id,
+                        task = taskEd.text.toString(),
+                        date = dateBtn.text.toString(),
+                        regular = regularBtn.text.toString()
+                    )
+                    App.appDataDataBase.taskDao().update(model)
+                }  else {
+                    val model =
+                        TaskModel(task = taskEd.text.toString(), date = date, regular = regular)
+                    App.appDataDataBase.taskDao().insert(model)
+                }
                 dismiss()
             }
             regularBtn.setOnClickListener {
