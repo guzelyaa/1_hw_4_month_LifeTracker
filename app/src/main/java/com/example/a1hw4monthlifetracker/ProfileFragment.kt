@@ -34,7 +34,7 @@ class ProfileFragment : Fragment() {
         (requireActivity() as MainActivity).binding.titleTv.text = "Профиль"
         (requireActivity() as MainActivity).binding.profileImV.load(R.drawable.ic_task)
         (requireActivity() as MainActivity).binding.toolBar.setOnClickListener{
-            findNavController().navigate(R.id.homeFragment2)
+            findNavController().navigate(R.id.action_profileFragment_to_homeFragment2)
         }
 
 //        val preferences = requireContext().getSharedPreferences("photo", Context.MODE_PRIVATE)
@@ -51,8 +51,6 @@ class ProfileFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) { super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == pickImage) {
-//            val preferences = requireContext().getSharedPreferences("photo", Context.MODE_PRIVATE)
-//            preferences.edit().putString("isSave", imageUri.toString()).apply()
             imageUri = data?.data
             binding.profilePhoto.setImageURI(imageUri)
 

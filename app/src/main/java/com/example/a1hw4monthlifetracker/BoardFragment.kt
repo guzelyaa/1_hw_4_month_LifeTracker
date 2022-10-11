@@ -29,22 +29,21 @@ class BoardFragment : Fragment(), ItemOnClickListener {
         val preferences = requireContext().getSharedPreferences("setting", Context.MODE_PRIVATE)
         val isShow : Boolean = preferences.getBoolean("isShow", false)
         if (isShow){
-            findNavController().navigate(R.id.action_boardFragment_to_homeFragment2)
+            findNavController().navigate(R.id.homeFragment2)
         }
 
         val list= ArrayList<BoardModel>()
-        list.add(BoardModel(R.drawable.board_first, "Экономь время", "Дальше"))
-        list.add(BoardModel(R.drawable.board_second, "Достигай целей", "Дальше"))
-        list.add(BoardModel(R.drawable.board_third, "Развивайся", "Начинаем"))
+        list.add(BoardModel("time_anim.json", "Экономь время", "Дальше"))
+        list.add(BoardModel("first_anim.json", "Достигай целей", "Дальше"))
+        list.add(BoardModel("start.json", "Развивайся", "Начинаем"))
         val boardAdapter = BoardAdapter(list, this)
         binding.viewPager.adapter = boardAdapter
         binding.dotsIndicator.attachTo(binding.viewPager)
     }
-
     override fun itemClick() {
         val preferences = requireContext().getSharedPreferences("setting", Context.MODE_PRIVATE)
         preferences.edit().putBoolean("isShow", true).apply()
-        findNavController().navigate(R.id.action_boardFragment_to_homeFragment2)
+        findNavController().navigate(R.id.homeFragment2)
     }
 
     override fun btnClick1page() {

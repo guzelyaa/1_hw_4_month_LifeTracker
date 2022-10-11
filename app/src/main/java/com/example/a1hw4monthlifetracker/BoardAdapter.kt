@@ -30,7 +30,7 @@ class BoardAdapter(private val list : ArrayList<BoardModel>, private val listene
     inner class BoardViewHolder(private val binding: ItemBoardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(boardModel: BoardModel) {
-            binding.imageView.load(boardModel.image)
+            binding.lottieView.setAnimation(boardModel.animation)
             binding.description.text = boardModel.description
             binding.nextBtn.text = boardModel.button
             binding.nextBtn.setOnClickListener{
@@ -43,6 +43,5 @@ class BoardAdapter(private val list : ArrayList<BoardModel>, private val listene
                 }
             }
         }
-
     }
 }

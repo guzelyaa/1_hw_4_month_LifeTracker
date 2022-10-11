@@ -46,7 +46,7 @@ class HomeFragment : Fragment(), TaskClickListener {
             TaskFragment().show(requireActivity().supportFragmentManager, "")
         }
         (requireActivity() as MainActivity).binding.toolBar.setOnClickListener {
-            findNavController().navigate(R.id.profileFragment)
+            findNavController().navigate(R.id.action_homeFragment2_to_profileFragment)
         }
     }
 
@@ -73,11 +73,6 @@ class HomeFragment : Fragment(), TaskClickListener {
     }
 
     override fun deleteItemClick(taskModel: TaskModel) {
-//        val dialog = TaskFragment()
-//        val bundle = Bundle()
-//        bundle.putSerializable("model", taskModel)
-//        dialog.arguments = bundle
-//        dialog.show(requireActivity().supportFragmentManager, "delete")
         showDialog(
             requireContext(),
             "Вы хотите удалить?",
